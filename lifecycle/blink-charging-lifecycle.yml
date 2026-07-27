@@ -1,0 +1,76 @@
+generated: '2026-07-27'
+method: searched
+source: >-
+  blinkcharging.com (985 sitemap URLs), api.blinknetwork.com live probes, Wayback CDX for
+  prod.blinknetwork.com/developer.html - all 2026-07-27.
+summary: >-
+  Blink Charging publishes no API lifecycle policy of any kind: no versioning scheme, no
+  deprecation policy, no Sunset/Deprecation header commitment, no SLA and no status page. What the
+  repo CAN record is an observed lifecycle: a named developer programme (BlinkMap API) that was
+  retired without notice, and a gateway path that now answers with an OCPI support gate.
+
+versioning:
+  scheme: not published
+  current: null
+  docs: null
+  observed: >-
+    The retired BlinkMap API used a URI-path version (api.blinknetwork.com/map/v1). Today ANY
+    /map-prefixed path on the gateway returns the same 503, so no version is negotiable and no
+    version discovery (/map/versions, /ocpi/versions) is reachable.
+
+deprecation:
+  policy_url: null
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  observed_retirements:
+  - surface: BlinkMap API developer programme
+    url: https://prod.blinknetwork.com/developer.html
+    retired: 'observed between 2021-07-28 and today'
+    evidence: >-
+      Wayback CDX shows snapshots from 2014-06-25 through 2021-07-28 and none after. The host now
+      refuses connections (curl 000; ECONNREFUSED 51.143.59.97:443 from a second vantage point).
+      blinknetwork.com/developer.html redirects to host.blinknetwork.com/developer.html, which
+      serves the 959-byte React SPA shell.
+    notice_given: none found - no deprecation notice, migration guide or sunset date was ever
+      published on blinkcharging.com.
+  - surface: BlinkMap / OCPI route on the public gateway
+    url: https://api.blinknetwork.com/map/v1
+    status: >-
+      HTTP 503 with {"status": 503, "error": "Service Unavailable", "message": "This service is
+      currently unavailable. Please contact support if you need access to OCPI."} - a route that
+      exists but is switched off for anonymous callers and redirected to a human support gate.
+
+sla:
+  url: null
+  uptime_target: null
+  note: >-
+    No API SLA is published. The only reliability commitment Blink makes anywhere is a footnote on
+    the UK open data page - "*Blink is compliant with the reliability requirement of the Public
+    Charge Point Regulations 2023" - which is about physical charge point uptime, not API uptime.
+
+status_page:
+  url: null
+  found: false
+  probed:
+  - {url: 'https://status.blinkcharging.com', status: '000 - DNS does not resolve'}
+  - {url: 'https://status.blinknetwork.com', status: '000 - DNS does not resolve'}
+  - {url: 'https://blinkcharging.com/status', status: 'not present in any of the 11 locale sitemaps'}
+  health_endpoint:
+    url: https://api.blinknetwork.com/health/actuator/health
+    status: 200
+    body: '{"status":"UP"}'
+    note: >-
+      A Spring Boot actuator health endpoint is publicly reachable through the Kong gateway. It is
+      an unadvertised operational endpoint, NOT a status page, and no `StatusPage` pointer was
+      wired for it.
+
+changelog:
+  url: null
+  found: false
+  note: >-
+    No dated API changelog or release notes exist. Product news is announced through
+    https://blinkcharging.com/news and https://blinkcharging.com/blog (e.g. "What's new on the
+    Blink Network"), which are marketing posts, not a versioned change record.
+
+deprecated_operations: []

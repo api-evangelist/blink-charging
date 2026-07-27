@@ -27,7 +27,7 @@ description: >-
   layer: OCPP 2.0.1 certification for its Series 7, 8 and 9 chargers announced September 2025,
   and OpenADR 2.0 approval for the Blink Network announced March 2020 enabling utility load
   management across its charging network.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/groq.png
+image: https://a-us.storyblok.com/f/1016941/220x110/e14930a9c8/blink-logo.svg
 tags:
 - Energy
 - United States
@@ -45,6 +45,8 @@ modified: '2026-07-27'
 specificationVersion: '0.19'
 apis: []
 common:
+- type: DomainSecurity
+  url: security/blink-charging-domain-security.yml
 - type: Website
   url: https://blinkcharging.com
 - type: Blog
@@ -65,6 +67,41 @@ common:
   url: https://twitter.com/BlinkCharging
 - type: GitHubOrganization
   url: https://github.com/blinkcharging
+- type: Login
+  name: Blink Network host portal login
+  url: https://host.blinknetwork.com/
+- type: Contact
+  url: https://blinkcharging.com/contact
+- type: FAQ
+  name: Driver FAQ
+  url: https://blinkcharging.com/charge/driver-faq
+- type: FAQ
+  name: Host FAQ
+  url: https://blinkcharging.com/host-a-station/host-faq
+- type: Careers
+  url: https://blinkcharging.com/company/careers
+- type: Investors
+  url: https://ir.blinkcharging.com/
+- type: Applications
+  name: Blink Charging Mobile App (iOS)
+  url: https://apps.apple.com/us/app/blink-charging-mobile-app/id1612678852
+- type: Applications
+  name: Blink Charging Mobile App (Android)
+  url: https://play.google.com/store/apps/details?id=com.blinknetwork.mobile2
+- type: Compliance
+  name: FedRAMP "In Process" designation for the Blink Network (2024-06-13)
+  url: https://blinkcharging.com/news/blink-charging-achieves-in-process-fedramp-status
+- type: TrustCenter
+  name: Blink Charging Trust Center (Vanta)
+  url: https://trust.blinkcharging.com
+- type: Conformance
+  url: conformance/blink-charging-conformance.yml
+- type: Lifecycle
+  url: lifecycle/blink-charging-lifecycle.yml
+- type: Packages
+  url: packages/blink-charging-packages.yml
+- type: LLMsTxt
+  url: llms/blink-charging-llms.txt
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

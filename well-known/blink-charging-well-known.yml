@@ -1,0 +1,75 @@
+generated: '2026-07-27'
+method: searched
+source: live probes 2026-07-27
+result: none-found
+note: >-
+  Every /.well-known/ probe against every Blink host missed. NOTHING was saved as a raw file
+  because nothing returned a real document, and NO `WellKnown`/`SecurityTxt` pointer was wired
+  into apis.yml - the discovery surface genuinely does not exist and claiming it would be false.
+  This file is the recorded negative so a later round does not re-probe blind. Watch for the
+  "soft 200" pattern: host.blinknetwork.com answers every path with the same 959-byte React SPA
+  shell (text/html), which is a 200 that means nothing.
+hosts:
+- host: https://blinkcharging.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /llms.txt
+    status: 404
+- host: https://api.blinknetwork.com
+  server: kong/2.8.1
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+    body: '{"message":"no Route matched with those values"}'
+  - path: /openapi.json
+    status: 404
+    body: '{"message":"no Route matched with those values"}'
+  - path: /swagger.json
+    status: 404
+    body: '{"message":"no Route matched with those values"}'
+  - path: /health
+    status: 200
+    body: '{"_links":{"profile":{"href":"http://api.blinknetwork.com/profile"}}}'
+    note: >-
+      A real routed upstream - a Spring Data REST / HAL root exposing only actuator health.
+      /health/actuator returns the actuator index (self, health, health-path) and
+      /health/actuator/health returns {"status":"UP"}. No springdoc surface: /health/v3/api-docs,
+      /health/openapi.json, /health/swagger.json, /health/api-docs and /health/swagger-ui.html all
+      return the app's own 404 JSON. Nothing describable was published.
+  - path: /map/*
+    status: 503
+    body: >-
+      {"status": 503, "error": "Service Unavailable", "message": "This service is currently
+      unavailable. Please contact support if you need access to OCPI."}
+    note: >-
+      Matches for ANY /map-prefixed path. This is Blink's OCPI gate, disabled for anonymous
+      callers. See conformance/blink-charging-conformance.yml#ocpi.
+- host: https://host.blinknetwork.com
+  documents:
+  - path: /.well-known/openid-configuration
+    status: 200
+    note: Soft 200 - 959-byte React SPA shell, text/html. Not an OIDC discovery document.
+  - path: /llms.txt
+    status: 200
+    note: Soft 200 - SPA shell.
+  - path: /openapi.json
+    status: 200
+    note: Soft 200 - SPA shell.
+- host: https://trust.blinkcharging.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    note: >-
+      Soft 200 - the Vanta trust-centre SPA shell (3,310 bytes, text/html) is returned for every
+      path including /robots.txt and /sitemap.xml. Not a security.txt.

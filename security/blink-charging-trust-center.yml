@@ -1,0 +1,36 @@
+generated: '2026-07-27'
+method: searched
+probe: true
+source: live probe 2026-07-27 (DNS + HTTPS)
+url: https://trust.blinkcharging.com
+title: Blink Charging Trust Center
+platform: Vanta
+verified: true
+certifications: []
+certifications_readable: false
+description: >-
+  Verbatim page description: "Our Trust Center provides transparency into Blink Charging's
+  information security and compliance program. Here, you can review our security controls,
+  compliance posture, and supporting documentation."
+evidence:
+- source: dns
+  detail: >-
+    trust.blinkcharging.com CNAMEs to 68bf19561bc8f4c48cb2adba.cname.vantatrust.com
+    (104.18.26.175, 104.18.27.175) - a Vanta-hosted trust centre on the company's own domain.
+- source: https://trust.blinkcharging.com/
+  detail: >-
+    HTTP 200, 3,751-byte Vanta SPA shell, <title>Blink Charging Trust Center</title>, canonical
+    https://trust.blinkcharging.com, og:image https://app.vanta.com/doc?s=jn9lvhu6v4k5q8oj2msfka
+    (a real 18KB JPEG card), slugid x6v528vlr1uan8vnkr20r.
+- source: https://trust.blinkcharging.com/graphql
+  detail: >-
+    POST {"query":"{__typename}"} returns HTTP 400
+    {"errors":[{"message":"Missing `signature` or `signedAt`","extensions":{"code":"BAD_REQUEST"}}]}
+    - Vanta requires a signed request, so the control/certification list is not readable
+    anonymously and NO certification is recorded here. Named certs would require loading the page
+    in a browser or requesting documents through Vanta's access flow.
+notes: >-
+  This is the only security-programme surface Blink publishes. It is NOT linked from
+  blinkcharging.com navigation or any of the 985 sitemap URLs - it was found by hostname probe.
+  Nothing on the marketing site names a certification; the one named programme there is FedRAMP
+  "In Process" (2024-06-13). See conformance/blink-charging-conformance.yml.

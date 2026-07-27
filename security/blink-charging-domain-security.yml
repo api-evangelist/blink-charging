@@ -1,0 +1,71 @@
+generated: '2026-07-27'
+method: probed
+source: >-
+  0-working/probe-domain-security.py for blinkcharging.com, extended 2026-07-27 with manual
+  openssl/dig/curl probes of the blinknetwork.com API + portal hosts, which the script cannot
+  reach from apis.yml (no baseURL is recorded for this provider).
+hosts:
+- host: blinkcharging.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Sep 18 05:04:42 2026 GMT
+  hsts: true
+  hsts_max_age: 31536000
+- host: api.blinknetwork.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Feb 13 12:51:03 2027 GMT
+  hsts: false
+  server: kong/2.8.1
+  note: Public Kong API gateway. No Strict-Transport-Security header on any response.
+- host: host.blinknetwork.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Feb 13 12:51:03 2027 GMT
+  hsts: false
+  server: AmazonS3
+  note: Blink Network host portal (React SPA on S3/CloudFront). No HSTS.
+- host: blinknetwork.com
+  https: true
+  tls_version: TLSv1.2
+  cert_expires: Feb 13 12:51:03 2027 GMT
+  hsts: false
+  server: awselb/2.0
+  note: >-
+    Apex redirects (301) to host.blinknetwork.com. Negotiates only TLSv1.2 - the weakest TLS of
+    any Blink host probed.
+- host: host.blinknetwork.eu
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct 13 23:59:59 2026 GMT
+  hsts: false
+  server: AmazonS3
+  note: European host portal. Returns 403 on /ocpi/cpo/versions.
+domains:
+- domain: blinkcharging.com
+  dnssec: false
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: quarantine
+- domain: blinknetwork.com
+  dnssec: false
+  caa: []
+  spf: true
+  spf_record: >-
+    v=spf1 a mx include:spf.protection.outlook.com include:mail.zendesk.com a:blinknetwork.com
+    a:smtp.blinknetwork.com a:dmz.blinknetwork.com ip4:206.225.165.104 ip4:72.44.248.138
+    include:amazonses.com +all
+  spf_all: +all
+  spf_weakness: >-
+    The SPF record ends in `+all`, which explicitly passes every sender and so neutralises SPF for
+    blinknetwork.com - the domain carrying the API gateway and both host portals.
+  dmarc: false
+  dmarc_policy: null
+findings:
+- No CAA record on either registrable domain - any CA may issue for them.
+- No DNSSEC on either registrable domain.
+- No DMARC record on blinknetwork.com (blinkcharging.com has DMARC at p=quarantine).
+- 'SPF on blinknetwork.com ends in +all: a permissive record that authorises all senders.'
+- HSTS is present on blinkcharging.com only; no blinknetwork.com host sets it.
+- No security.txt on any host (see well-known/blink-charging-well-known.yml).

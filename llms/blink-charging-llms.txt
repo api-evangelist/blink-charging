@@ -1,0 +1,73 @@
+# Blink Charging
+
+> Blink Charging Co. (Nasdaq: BLNK) is a United States electric vehicle charging company headquartered in Bowie, Maryland. It manufactures Level 2 and DC fast chargers, owns and operates charging stations, and runs the Blink Network — the proprietary cloud platform behind its host portal, driver mobile app and fleet management product. Blink publishes NO public API: there is no developer portal, no API reference, no base URL and no machine-readable contract on any Blink host as of 2026-07-27. This file exists so an agent stops looking, and knows exactly what does and does not exist.
+
+## What an agent needs to know first
+
+- There is no Blink developer portal. `developer.blinkcharging.com`, `developers.blinkcharging.com`, `api.blinkcharging.com`, `docs.blinkcharging.com` and `data.blinkcharging.com` do not resolve. `/developers`, `/api`, `/docs`, `/openapi.json`, `/swagger.json` and `/api-docs` on blinkcharging.com return 404.
+- Blink's own Terms and Conditions (last modified 2025-12-02) do govern "the Blink API" and tie its use to a username, so an account-credentialed interface exists — but nothing about it is published.
+- `https://api.blinknetwork.com` is a live Kong 2.8.1 gateway. Unmatched paths return `{"message":"no Route matched with those values"}`. Every `/map`-prefixed path returns HTTP 503 with: "This service is currently unavailable. Please contact support if you need access to OCPI." That is Blink's OCPI gate, switched off for anonymous callers.
+- The retired BlinkMap API developer programme (`prod.blinknetwork.com/developer.html`) is dead — the host refuses connections and the page was last archived 2021-07-28.
+- The only live data-request route is a UK open-data Google Form under the Public Charge Point Regulations 2023; requests are human-reviewed and shared with Eco-Movement.
+- Do NOT treat the three AE-modeled OpenAPI documents in the sibling repo `all/blink` as Blink contracts. They were reverse-modeled from a January 2014 Blink "API Map" PDF via an unofficial Ruby client and are not provider-published.
+
+## Company
+
+- [Blink Charging](https://blinkcharging.com): Company website.
+- [Company overview](https://blinkcharging.com/company/company-overview): Headquarters, offices, leadership.
+- [Investor relations](https://ir.blinkcharging.com/): Nasdaq: BLNK.
+- [News](https://blinkcharging.com/news): Press releases, including every standards claim below.
+- [Blog](https://blinkcharging.com/blog): Product and industry posts.
+- [Careers](https://blinkcharging.com/company/careers)
+- [Contact](https://blinkcharging.com/contact)
+
+## Products and platform
+
+- [Blink Network](https://blinkcharging.com/products/blink-network): The proprietary cloud platform. Names no protocol and no API.
+- [Host portal login](https://host.blinknetwork.com/): React SPA login for site hosts. Not an API.
+- [Blink Charging Mobile App — iOS](https://apps.apple.com/us/app/blink-charging-mobile-app/id1612678852)
+- [Blink Charging Mobile App — Android](https://play.google.com/store/apps/details?id=com.blinknetwork.mobile2)
+- [Driver FAQ](https://blinkcharging.com/charge/driver-faq)
+- [Host FAQ](https://blinkcharging.com/host-a-station/host-faq)
+- [Driver support](https://blinkcharging.com/getintouch/driver-support)
+
+## Data access
+
+- [UK open data request](https://blinkcharging.com/en-gb/getintouch/blink-open-data-request): The one live data-access surface. Google Form, human review by "the Blink Data team", answered "in api format", shared with Eco-Movement. Cites the UK Public Charge Point Regulations 2023.
+- [Data removal request](https://blinkcharging.com/legal/data-removal-request)
+
+## Standards Blink actually adopts (below the API layer)
+
+- [OCPP 2.0.1 certification](https://blinkcharging.com/news/blink-charging-achieves-ocpp-2-0-1-certification-for-ev-chargers): 2025-09-16, Series 7/8/9 chargers. Charger-to-CSMS device protocol, not a developer API.
+- [OpenADR 2.0 approval](https://blinkcharging.com/news/blink-network-approved-by-openadr-alliance-allowing-for-advanced-two-way-communication-with-utility-providers): 2020-03-17, the Blink Network. Utility load-management integration, no published endpoint.
+- [FedRAMP "In Process"](https://blinkcharging.com/news/blink-charging-achieves-in-process-fedramp-status): 2024-06-13. In Process is not an authorization; no later first-party page announces full authorization.
+- OCPI: gated. See the 503 message on `https://api.blinknetwork.com/map/v1`.
+
+## Legal
+
+- [Blink Network Terms and Conditions](https://blinkcharging.com/legal/blink-network-terms-and-conditions): Section 8 governs "the Blink Website, API, and Mobile Applications".
+- [Privacy policy](https://blinkcharging.com/legal/privacy-policy)
+- [EU terms of use](https://blinkcharging.com/legal/eu-terms-of-use)
+
+## Security and compliance
+
+- [Trust Center](https://trust.blinkcharging.com): Vanta-hosted, live, unlinked from site navigation. Certifications are not readable anonymously (request-signed GraphQL), so none are claimed here.
+- No `/.well-known/security.txt` on any Blink host; no published vulnerability disclosure programme.
+
+## API Evangelist artifacts for this provider
+
+> Repo: https://github.com/api-evangelist/blink-charging — all paths below are repo-relative.
+
+- [apis.yml](https://raw.githubusercontent.com/api-evangelist/blink-charging/refs/heads/main/apis.yml): The APIs.json index for Blink Charging.
+- [review.yml](https://raw.githubusercontent.com/api-evangelist/blink-charging/refs/heads/main/review.yml): Every URL probed and the HTTP status returned, plus the mandate/access-gate analysis.
+- [conformance/blink-charging-conformance.yml](https://raw.githubusercontent.com/api-evangelist/blink-charging/refs/heads/main/conformance/blink-charging-conformance.yml): OCPP, OpenADR, OCPI, FedRAMP, UK PCPR, and the explicit negatives.
+- [lifecycle/blink-charging-lifecycle.yml](https://raw.githubusercontent.com/api-evangelist/blink-charging/refs/heads/main/lifecycle/blink-charging-lifecycle.yml): The observed retirement of the BlinkMap API; no versioning, deprecation, SLA or status page.
+- [authentication/blink-charging-authentication.yml](https://raw.githubusercontent.com/api-evangelist/blink-charging/refs/heads/main/authentication/blink-charging-authentication.yml): What is knowable about Blink API auth (very little) and why no Authentication pointer is claimed.
+- [packages/blink-charging-packages.yml](https://raw.githubusercontent.com/api-evangelist/blink-charging/refs/heads/main/packages/blink-charging-packages.yml): No first-party SDK exists; one unofficial 2014 Ruby wrapper.
+- [well-known/blink-charging-well-known.yml](https://raw.githubusercontent.com/api-evangelist/blink-charging/refs/heads/main/well-known/blink-charging-well-known.yml): The recorded negative for every /.well-known/ probe.
+- [security/blink-charging-domain-security.yml](https://raw.githubusercontent.com/api-evangelist/blink-charging/refs/heads/main/security/blink-charging-domain-security.yml): TLS/HSTS/DNSSEC/CAA/SPF/DMARC across blinkcharging.com and blinknetwork.com.
+- [security/blink-charging-trust-center.yml](https://raw.githubusercontent.com/api-evangelist/blink-charging/refs/heads/main/security/blink-charging-trust-center.yml): The Vanta trust centre, verified but unreadable anonymously.
+
+## Not available
+
+There is no OpenAPI, AsyncAPI, JSON Schema, GraphQL schema, Postman collection, gRPC/Protobuf definition, MCP server, agent skill, SDK, CLI, sandbox, changelog or status page for Blink Charging. None of these were generated or modeled, because inventing them would misrepresent a closed platform as an open one.

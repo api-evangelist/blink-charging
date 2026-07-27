@@ -1,0 +1,146 @@
+generated: '2026-07-27'
+method: searched
+source: >-
+  blinkcharging.com news + product + legal pages, and live probes of
+  api.blinknetwork.com (2026-07-27). No machine-readable contract exists, so nothing here is
+  derived from an OpenAPI - every entry is either a provider claim with a first-party URL or a
+  live probe result.
+note: >-
+  Blink Charging publishes no OpenAPI, AsyncAPI or JSON Schema. Its real standards adoption sits
+  BELOW the developer-API layer, in the charger-to-backend (OCPP), utility-to-network (OpenADR)
+  and network-to-network (OCPI, gated) control planes. Entries marked conforms: false are recorded
+  as explicit negatives, not gaps to be filled later by invention.
+
+standards:
+- id: ocpp-2.0.1
+  name: Open Charge Point Protocol 2.0.1
+  conforms: true
+  layer: charger-to-CSMS device protocol
+  evidence: >-
+    https://blinkcharging.com/news/blink-charging-achieves-ocpp-2-0-1-certification-for-ev-chargers
+    (HTTP 200) announces Open Charge Alliance certification on 2025-09-16 for Blink Series 7, 8
+    and 9 chargers, covering "the two OCPP modules currently available for compliance testing".
+  developer_callable: false
+  note: Device interoperability certification. Gives no third party a callable endpoint.
+- id: openadr-2.0
+  name: OpenADR 2.0
+  conforms: true
+  layer: utility demand response / load management signalling
+  evidence: >-
+    https://blinkcharging.com/news/blink-network-approved-by-openadr-alliance-allowing-for-advanced-two-way-communication-with-utility-providers
+    (HTTP 200, dated 2020-03-17): "Through OpenADR 2.0, a widely adopted standard, a utility or
+    load management entity can readily integrate our entire charging network within their
+    territory to enable load management control."
+  developer_callable: false
+  note: >-
+    Approved by the OpenADR Alliance for the Blink Network. Real utility-control-plane
+    integration; no VTN/VEN endpoint, onboarding path or specification is published.
+- id: ocpi
+  name: Open Charge Point Interface
+  conforms: partial-gated
+  layer: charging network roaming
+  evidence: >-
+    NEW 2026-07-27 - live probe. https://api.blinknetwork.com is a Kong 2.8.1 gateway
+    (server: kong/2.8.1). Unmatched paths return the Kong body
+    {"message":"no Route matched with those values"} (HTTP 404), but EVERY path with the /map
+    prefix (/map, /map/v1, /map/v2, /map/versions, /map/cpo/versions, /map/ocpi/versions,
+    /mapzzz) returns HTTP 503 with the body: {"status": 503, "error": "Service Unavailable",
+    "message": "This service is currently unavailable. Please contact support if you need access
+    to OCPI."} - Blink's own gateway names OCPI and routes callers to support.
+  developer_callable: false
+  note: >-
+    This upgrades the 2026-07-27 bootstrap finding ("Blink publishes no OCPI endpoint"). A route
+    for OCPI DOES exist on Blink's public API gateway, at the same /map prefix the retired
+    BlinkMap API used, but it is disabled for anonymous callers and gated behind "contact
+    support". No version negotiation (/ocpi/versions, /ocpi/2.2/versions) is reachable: both
+    return Kong's no-route 404. Roaming reach continues to be brokered through Hubject
+    Intercharge, Eco-Movement and Paua rather than a Blink-published OCPI interface.
+- id: fedramp
+  name: FedRAMP (Federal Risk and Authorization Management Program)
+  conforms: in-process
+  layer: US federal cloud security authorization
+  evidence: >-
+    https://blinkcharging.com/news/blink-charging-achieves-in-process-fedramp-status (HTTP 200,
+    posted 2024-06-13): Blink "has achieved the 'In Process' designation granted by the Federal
+    Risk and Authorization Management Program (FedRAMP) for its EV charging solutions" and "is
+    presently listed as 'In Process' in the FedRAMP Marketplace", covering the Blink Network. The
+    same release states Blink "expects to reach full FedRAMP compliance status before the end of
+    Q3 2024".
+  developer_callable: false
+  note: >-
+    In Process is not an authorization. No Blink first-party page published after 2024-06-13
+    announces full FedRAMP Authorized status, and no ATO letter, agency sponsor or impact level
+    is named on blinkcharging.com. Recorded at the status Blink itself last published.
+- id: uk-pcpr-2023
+  name: UK Public Charge Point Regulations 2023 (open data + reliability duties)
+  conforms: claimed
+  layer: charge point operator open data duty
+  evidence: >-
+    https://blinkcharging.com/en-gb/getintouch/blink-open-data-request (HTTP 200): "Blink Charging
+    is committed to transparency and compliance with the UK Public Charge Point Regulations
+    (PCPR)"; open data "includes data on the usage of our charge points, their locations, and
+    their availability"; "The Blink Data team will review your request and provide the data in api
+    format and a stipulated timeframe"; footnote "*Blink is compliant with the reliability
+    requirement of the Public Charge Point Regulations 2023."
+  developer_callable: false
+  note: >-
+    A compliance claim delivered through a Google Form and human review, not an open feed. No
+    endpoint, base URI, licence, schema or data dictionary is published.
+- id: green-button-espi
+  name: Green Button / NAESB ESPI
+  conforms: false
+  layer: consumer energy data right
+  evidence: >-
+    Zero occurrences of "Green Button", "ESPI", "NAESB", "IEEE 2030.5" or "CIM" across every
+    fetched Blink page (company overview, Blink Network product page, network terms, UK open data
+    request, robots.txt, all 11 locale sitemaps / 985 URLs).
+  note: Not applicable - Blink is a charge point operator and grid load, not a utility.
+- id: oauth2
+  name: OAuth 2.0
+  conforms: unknown
+  evidence: >-
+    No OAuth metadata is published. https://blinkcharging.com/.well-known/oauth-authorization-server
+    and /.well-known/openid-configuration both return HTTP 404;
+    https://host.blinknetwork.com/.well-known/openid-configuration returns a soft 200 that is the
+    959-byte React SPA shell. The one indirect signal is that Blink's GitHub organisation
+    (https://github.com/blinkcharging, org id 84390188) maintains a single public repository -
+    kong-oidc (https://github.com/blinkcharging/kong-oidc), an Apache-2.0 FORK of
+    S44-Automotive/kong-oidc created 2024-06-17 - which suggests OIDC is used in front of the same
+    Kong gateway that serves api.blinknetwork.com. That is inference from a forked open-source
+    plugin, not a published Blink auth contract.
+- id: rfc9457-problem-details
+  name: RFC 9457 Problem Details for HTTP APIs
+  conforms: false
+  evidence: >-
+    Error bodies observed on api.blinknetwork.com are Kong's default JSON ({"message": ...}) and a
+    custom {"status","error","message"} envelope on the /map routes; content-type is
+    application/json, not application/problem+json.
+- id: rfc9116-security-txt
+  name: RFC 9116 security.txt
+  conforms: false
+  evidence: >-
+    https://blinkcharging.com/.well-known/security.txt, /security.txt and
+    https://api.blinknetwork.com/.well-known/security.txt all return 404 (2026-07-27).
+
+compliance_published:
+- program: FedRAMP
+  status: In Process (as last published by Blink, 2024-06-13)
+  url: https://blinkcharging.com/news/blink-charging-achieves-in-process-fedramp-status
+- program: UK Public Charge Point Regulations 2023
+  status: compliance claimed (open data by request; reliability requirement claimed met)
+  url: https://blinkcharging.com/en-gb/getintouch/blink-open-data-request
+- program: Blink Charging Trust Center (Vanta)
+  status: >-
+    Live. NEW 2026-07-27 - https://trust.blinkcharging.com returns HTTP 200, titled "Blink
+    Charging Trust Center", CNAME to 68bf19561bc8f4c48cb2adba.cname.vantatrust.com (Vanta).
+    Named certifications could NOT be read anonymously: the page is a Vanta SPA whose content
+    loads over a request-signed GraphQL call (POST /graphql without a signature returns
+    {"errors":[{"message":"Missing `signature` or `signedAt`"}]}). Recorded as verified-exists,
+    certifications unread - NOT as a certification claim.
+  url: https://trust.blinkcharging.com
+- program: 'Certifications NOT found on the marketing site'
+  status: >-
+    No SOC 2, ISO 27001/27017/27018, PCI DSS, HIPAA, CSA STAR or FIPS 140 claim appears anywhere
+    on blinkcharging.com itself - /trust, /security and /compliance all return 404 and none of the
+    985 URLs in the 11 locale sitemaps names a certification. FedRAMP In Process (2024) is the one
+    named program on the marketing surface. security.blinkcharging.com does not resolve.

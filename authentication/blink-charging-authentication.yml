@@ -1,0 +1,74 @@
+generated: '2026-07-27'
+method: searched
+source: >-
+  https://blinkcharging.com/legal/blink-network-terms-and-conditions,
+  https://github.com/blinkcharging/kong-oidc, and live probes of api.blinknetwork.com and
+  host.blinknetwork.com (2026-07-27).
+documented: false
+pointer_withheld: true
+pointer_withheld_reason: >-
+  No `Authentication` pointer was wired into apis.yml. The apis.io `authentication_documented`
+  check rewards a provider for PUBLISHING an auth contract, and Blink publishes none - no scheme
+  name, header, token format, flow, scope or credential-issuance path appears on any Blink
+  surface. Wiring the pointer would claim a documented auth surface that does not exist. This file
+  records what is knowable so the pointer can be added the day Blink documents it.
+
+summary:
+  types: []
+  api_key_in: []
+  oauth2_flows: []
+  spec_derived: false
+  note: >-
+    derive-authentication.py was not run - there is no OpenAPI/Swagger in this repo to derive
+    securitySchemes from, by design (see review.yml harvest.explicitlyNotHarvested).
+
+evidence:
+- source: https://blinkcharging.com/legal/blink-network-terms-and-conditions
+  kind: terms-of-service
+  detail: >-
+    "Last Modified: December 2, 2025." Section 8, "Using the Blink Website, API, or Mobile
+    Applications", states verbatim: "You are responsible for all use of the Blink Website, API,
+    and Mobile Applications under your username." This is the only first-party statement about
+    Blink API authentication that exists: it implies username-scoped account credentials and
+    nothing more.
+- source: https://github.com/blinkcharging/kong-oidc
+  kind: inference
+  detail: >-
+    Blink's GitHub organisation maintains a single public repo - an Apache-2.0 fork of
+    S44-Automotive/kong-oidc ("OIDC plugin for Kong"), created 2024-06-17. The live gateway at
+    api.blinknetwork.com advertises `server: kong/2.8.1`. Together these suggest OIDC in front of
+    the Kong gateway, but no OIDC discovery document is published (see below) and no client
+    registration path exists. Recorded as inference, NOT as a scheme.
+- source: https://api.blinknetwork.com/
+  kind: probe
+  detail: >-
+    Kong returns HTTP 404 {"message":"no Route matched with those values"} for unmatched paths;
+    /oauth/token and /auth are both unmatched. No 401 challenge, no WWW-Authenticate header and no
+    token endpoint is exposed anonymously.
+- source: https://host.blinknetwork.com/
+  kind: probe
+  detail: >-
+    The Blink Network host portal is a React SPA served from AmazonS3 behind CloudFront. Its login
+    is a human account login for hosts, not a documented API credential flow.
+- source: historical
+  kind: retired-surface
+  detail: >-
+    The retired BlinkMap API (prod.blinknetwork.com/developer.html, last archived 2021-07-28)
+    granted "access to our technical documentation and email support" only after an application
+    form and agreement to the "Blink Network, LLC Data License Agreement" - i.e. even the auth
+    documentation was behind the approval gate.
+
+discovery_probes:
+- {url: 'https://blinkcharging.com/.well-known/openid-configuration', status: 404}
+- {url: 'https://blinkcharging.com/.well-known/oauth-authorization-server', status: 404}
+- {url: 'https://host.blinknetwork.com/.well-known/openid-configuration', status: '200 (soft - 959-byte React SPA shell, text/html)'}
+- {url: 'https://api.blinknetwork.com/.well-known/security.txt', status: '404 (Kong no-route)'}
+
+access_gate:
+  gate: application-approval
+  self_serve: false
+  detail: >-
+    There is no self-serve credential path. The two live routes to any Blink data are (1) the UK
+    open data Google Form at https://blinkcharging.com/en-gb/getintouch/blink-open-data-request and
+    (2) "contact support if you need access to OCPI", the message Blink's own gateway returns on
+    /map/*.

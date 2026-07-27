@@ -45,6 +45,17 @@ Blink's standards adoption is real, but it sits below the public API layer — i
 - **OpenADR 2.0** — the Blink Network was approved by the OpenADR Alliance on 2020-03-17, so "a utility or load management entity can readily integrate our entire charging network within their territory to enable load management control".
 - **Roaming** — Blink participates in third-party roaming and data distribution networks (Hubject Intercharge, Eco-Movement, Paua). Blink publishes no OCPI endpoint of its own; every `/ocpi/versions` probe against a Blink host returned an SPA shell or 403.
 
+## Enrichment round — 2026-07-27
+
+A second pass re-ran the full contract discovery (OpenAPI on every API host root, GraphQL introspection, MCP `tools/list`, AsyncAPI, `/.well-known/*`) and still found no machine-readable contract. It did find four things the bootstrap round did not — all recorded under `enrichmentRounds` in `review.yml`:
+
+- **An OCPI gate on a live Kong gateway.** `https://api.blinknetwork.com` runs `kong/2.8.1`. Unmatched paths return `{"message":"no Route matched with those values"}`, but every `/map`-prefixed path returns `503` with the body *"This service is currently unavailable. Please contact support if you need access to OCPI."* A route for OCPI exists, at the same `/map` prefix the retired BlinkMap API used, switched off for anonymous callers.
+- **An unadvertised health surface.** `https://api.blinknetwork.com/health` returns a Spring Data REST/HAL root; `/health/actuator/health` returns `{"status":"UP"}`. No springdoc/OpenAPI surface is exposed behind it. This is not a status page and was not wired as one.
+- **A Vanta trust centre.** `https://trust.blinkcharging.com` is live and titled "Blink Charging Trust Center", unlinked from site navigation and absent from all 985 sitemap URLs. Its certification list is not readable anonymously (request-signed GraphQL), so no certification is claimed. The one named compliance programme on the marketing site is FedRAMP **"In Process"** (announced 2024-06-13).
+- **`blinknetwork.com` domain hygiene is weak.** No DMARC, no CAA, no DNSSEC, SPF ending in `+all`, TLS 1.2 only on the apex and no HSTS on any host — on the domain that carries the API gateway and both portals.
+
+Artifacts added this round: `conformance/`, `lifecycle/`, `authentication/`, `packages/`, `well-known/`, `llms/`, `security/` (domain security + trust centre). Nothing was generated for OpenAPI, MCP, skills, sandbox, CLI, changelog or AsyncAPI — none exist, and `review.yml` records which `apis.yml` pointers were deliberately withheld rather than claimed.
+
 ## Duplicate warning
 
 An existing api-evangelist repo at `all/blink` profiles this same company (Blink Charging Co., blinkcharging.com) under the aid `blink`, with three AE-modeled OpenAPI documents. These two repos should be merged rather than both published. See the `duplicateWarning` block in `review.yml`.

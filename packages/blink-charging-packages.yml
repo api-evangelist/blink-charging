@@ -1,0 +1,66 @@
+generated: '2026-07-27'
+method: searched
+source: >-
+  npm registry search, PyPI, RubyGems, and the Blink Charging GitHub organisation
+  (https://github.com/blinkcharging), probed 2026-07-27.
+official_sdks: 0
+result: no-first-party-client-libraries
+note: >-
+  Blink Charging publishes NO first-party client library in any registry. No `SDKs` pointer was
+  wired into apis.yml because there is no official SDK to point at. The two entries below are
+  recorded for provenance only: one unofficial third-party wrapper, and the single public repo in
+  Blink's own GitHub org (which is an infrastructure plugin fork, not a client library).
+
+packages:
+- language: ruby
+  registry: rubygems
+  name: blink_api
+  url: https://rubygems.org/gems/blink_api
+  install: gem install blink_api
+  official: false
+  version: 0.0.1
+  released: '2014-04-15'
+  downloads: 4384
+  author: Kyle Conarro
+  source: https://github.com/conarro/blink_api
+  description: 'Verbatim gem summary: "Ruby wrapper for the Blink Network charging station API"'
+  note: >-
+    Unofficial, single 0.0.1 release from April 2014, unmaintained. Real evidence that the
+    retired BlinkMap API was once callable; not a Blink artifact and not a supported integration
+    path. It is the same third-party client the AE-modeled specs in the sibling repo all/blink
+    were reverse-modeled from.
+
+repositories:
+- name: blinkcharging/kong-oidc
+  url: https://github.com/blinkcharging/kong-oidc
+  owner_org: https://github.com/blinkcharging
+  org_id: 84390188
+  fork: true
+  parent: S44-Automotive/kong-oidc
+  license: Apache-2.0
+  created: '2024-06-17'
+  last_push: '2024-01-16'
+  stars: 0
+  description: 'OIDC plugin for Kong'
+  official: true
+  is_client_library: false
+  note: >-
+    The ONLY public repository in Blink Charging's GitHub organisation. A fork of an open-source
+    OpenID Connect plugin for the Kong API gateway - consistent with the live
+    https://api.blinknetwork.com gateway advertising `server: kong/2.8.1`. It suggests Blink
+    fronts its API gateway with OIDC, but it is inference from a fork, not a published auth
+    contract, and it ships nothing a consumer can install to call Blink.
+
+registries_probed:
+- registry: npm
+  query: blink charging
+  result: no first-party package (all hits are unrelated - Amazon Blink cameras, blink-diff, Blink Debit, bl.ink)
+- registry: pypi
+  query: blink-charging
+  result: 404
+- registry: rubygems
+  query: blink_api
+  result: 200 - the unofficial 2014 wrapper above
+- registry: github
+  query: org blinkcharging
+  result: 1 public repo (kong-oidc, a fork)

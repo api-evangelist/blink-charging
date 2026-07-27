@@ -522,3 +522,86 @@ duplicateWarning:
     all/blink's accessModel says onboarding "self-serve" with confidence medium. That is wrong on
     the evidence: there is no self-serve path of any kind. The gate is application-approval, and
     for the retired BlinkMap program it was application-approval plus a data licence agreement.
+
+enrichmentRounds:
+- date: '2026-07-27'
+  round: 'enrichment 2026-06-20 contract (search/generate/derive)'
+  outcome: >-
+    Still no public API. The contract-discovery hunt (STEP 0b) was re-run against every Blink host
+    and missed on OpenAPI, GraphQL, MCP and AsyncAPI - but it turned up three material NEW findings
+    that change or sharpen the bootstrap review.
+  newFindings:
+  - id: ocpi-gate-on-the-live-gateway
+    supersedes: 'dataStandard.standardsAdoptedBelowTheApiLayer[OCPI (indirect)] - "Blink itself publishes no OCPI endpoint"'
+    finding: >-
+      https://api.blinknetwork.com is a live Kong 2.8.1 API gateway (server: kong/2.8.1). Unmatched
+      paths return HTTP 404 {"message":"no Route matched with those values"} (/v1, /v2, /v3, /api,
+      /auth, /oauth/token, /ocpi, /ocpi/2.2/versions, /status, /m, /zzzmap all confirmed
+      unmatched). EVERY path with the /map prefix - /map, /map/v1, /map/v2, /mapv2, /mapzzz,
+      /map/versions, /map/cpo/versions, /map/ocpi/versions - returns HTTP 503 with the body:
+      {"status": 503, "error": "Service Unavailable", "message": "This service is currently
+      unavailable. Please contact support if you need access to OCPI."}. So a route DOES exist for
+      OCPI, at the same /map prefix the retired BlinkMap API used, and Blink's own gateway names
+      OCPI and routes callers to support. It is a gate, not a public endpoint - no version
+      negotiation is reachable anonymously and nothing is documented - but "Blink publishes no
+      OCPI surface at all" is no longer the precise statement. The precise statement is: Blink
+      operates an OCPI route on its public gateway and keeps it switched off behind support.
+  - id: unadvertised-health-surface
+    finding: >-
+      https://api.blinknetwork.com/health returns HTTP 200 with a Spring Data REST / HAL document
+      {"_links":{"profile":{"href":"http://api.blinknetwork.com/profile"}}}. /health/actuator
+      returns the Spring Boot actuator index and /health/actuator/health returns {"status":"UP"}.
+      No description surface is exposed: /health/v3/api-docs, /health/openapi.json,
+      /health/swagger.json, /health/api-docs and /health/swagger-ui.html all return the
+      application's own 404 JSON. This is an operational endpoint reachable by anyone, not a status
+      page, and no StatusPage pointer was wired for it.
+  - id: vanta-trust-center
+    supersedes: 'the bootstrap assumption that Blink publishes no security programme surface'
+    finding: >-
+      https://trust.blinkcharging.com resolves (CNAME 68bf19561bc8f4c48cb2adba.cname.vantatrust.com)
+      and returns HTTP 200 titled "Blink Charging Trust Center" - a Vanta-hosted trust centre on
+      Blink's own domain, unlinked from site navigation and absent from all 985 sitemap URLs.
+      Certifications are NOT readable anonymously: the page is a SPA whose content loads over a
+      request-signed GraphQL call (POST /graphql without a signature returns "Missing `signature`
+      or `signedAt`"). Recorded as verified-exists with certifications unread. Separately,
+      https://blinkcharging.com/news/blink-charging-achieves-in-process-fedramp-status (posted
+      2024-06-13) is the one named compliance programme on the marketing site: FedRAMP "In
+      Process" for the Blink Network, with a stated expectation of full compliance "before the end
+      of Q3 2024" that no later first-party page confirms.
+  - id: github-org-kong-oidc
+    finding: >-
+      Blink's GitHub organisation (id 84390188) has exactly one public repository:
+      https://github.com/blinkcharging/kong-oidc, an Apache-2.0 FORK of S44-Automotive/kong-oidc
+      ("OIDC plugin for Kong") created 2024-06-17, last pushed 2024-01-16, 0 stars. Consistent with
+      the Kong gateway above and suggestive of OIDC in front of it, but it is a fork of an
+      open-source plugin, not a Blink client library or auth contract, and no OIDC discovery
+      document is published anywhere.
+  - id: blinknetwork-domain-hygiene
+    finding: >-
+      blinknetwork.com - the domain carrying the API gateway and both host portals - has no DMARC
+      record, no CAA, no DNSSEC, and an SPF record ending in "+all", which passes every sender and
+      effectively neutralises SPF. The apex negotiates only TLSv1.2 and no blinknetwork.com host
+      sets HSTS. blinkcharging.com by contrast has HSTS (max-age 31536000) and DMARC at
+      p=quarantine. Full detail in security/blink-charging-domain-security.yml.
+  stillAbsent: >-
+    No OpenAPI, Swagger, GraphQL SDL, AsyncAPI, JSON Schema, Postman collection, .proto, MCP
+    server, agent skill, first-party SDK, CLI, sandbox, changelog, roadmap, status page,
+    security.txt or vulnerability disclosure programme. npm, PyPI and RubyGems carry no
+    first-party Blink client library; the only wrapper that has ever existed is the unofficial
+    blink_api Ruby gem (v0.0.1, 2014-04-15, Kyle Conarro). Every one of those artifact types was
+    deliberately NOT generated.
+  pointersDeliberatelyWithheld:
+  - type: Authentication
+    reason: Blink documents no auth contract; the artifact records that fact instead of claiming one.
+  - type: WellKnown
+    reason: Every /.well-known/ probe missed; the artifact is the recorded negative.
+  - type: SDKs
+    reason: No official client library exists in any registry.
+  - type: StatusPage
+    reason: No status page exists - status.blinkcharging.com and status.blinknetwork.com do not resolve.
+  - type: Deprecation
+    reason: >-
+      The BlinkMap API was retired without any published notice, migration guide or sunset date -
+      an observed retirement is not a deprecation policy.
+  - type: Security
+    reason: No security.txt, no disclosure page and no bug bounty programme was found.
