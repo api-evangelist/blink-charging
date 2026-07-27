@@ -1,0 +1,524 @@
+aid: blink-charging
+name: Blink Charging
+review:
+  question: >-
+    Does Blink Charging operate under an energy consumer-data mandate, and does it publish a
+    real, downloadable public API surface?
+  answer: >-
+    Mandate: none in the home market; a UK charge-point open-data duty applies to its UK
+    subsidiary and is claimed but not verifiable as an implementation. Public API surface: no —
+    an API is named in Blink's own terms of service and a developer program existed
+    historically, but nothing is documented, published or downloadable today.
+  date: '2026-07-27'
+  reviewer: API Evangelist
+  homeMarket: United States
+  sector: Energy & Utilities
+  tier: ev-charging
+
+identity:
+  legalName: Blink Charging Co.
+  tradingNames:
+  - Blink Charging
+  - Blink Network
+  - Blink Charging UK
+  - Blue Corner
+  - Blink Mobility
+  primaryDomain: blinkcharging.com
+  primaryDomainStatus: >-
+    https://blinkcharging.com returns HTTP 200. https://www.blinkcharging.com returns HTTP 200.
+    Next.js-rendered marketing site with locale sub-trees (en-us, en-gb, en-be, fr-be, nl-be,
+    en-gr, el-gr, en, fr, el) and 985 unique URLs across its sitemap index.
+  exchange: Nasdaq
+  ticker: BLNK
+  tickerSource: >-
+    Investor relations subdomain https://ir.blinkcharging.com returned HTTP 200 and is linked
+    from the site footer (stock-data/quote, company-information, financial-information pages).
+  headquarters: >-
+    17301 Melford Boulevard, Bowie, Maryland 20715, United States - stated verbatim on
+    https://blinkcharging.com/company/company-overview (HTTP 200). Note that the company's own
+    GitHub organisation profile (https://github.com/blinkcharging, org id 84390188) still lists
+    "Miami Beach, FL"; the Bowie, Maryland address on the live company page is treated as
+    current.
+  otherOffices: California, Maryland, United Kingdom, Belgium, India (per company-overview page)
+  leadership: Michael Battaglia, CEO (per company-overview page)
+  positionInValueChain: >-
+    Charge point operator and charger manufacturer. Blink sits on the LOAD side of the grid, not
+    the data-holder side. It is not a utility, not an energy retailer, not a distribution network
+    operator and not an ISO/RTO. It buys electricity, deploys and networks charging hardware, and
+    sells charging sessions and network software. Any consumer energy data it holds is charging
+    session data belonging to its own drivers and hosts, not metered premises consumption of the
+    kind Green Button, the Consumer Data Right or a smart-meter data service governs.
+
+mandate:
+  regime: other
+  status: live-claimed-unverified
+  verbatimFinding: >-
+    NO energy consumer-data mandate applies to Blink Charging in its home market of the United
+    States. Green Button (the NAESB/NIST-derived Download My Data and Connect My Data profiles)
+    is a voluntary standard aimed at electric and gas utilities; Blink is neither, and no Green
+    Button, ESPI or NAESB reference appears anywhere on its public surface. Blink is not an
+    Australian CDR designated data holder (it does not operate in Australia), is not covered by
+    Ontario's Green Button regulation (it does not operate in Ontario), and is not a party to any
+    smart-meter data infrastructure regime. The regime recorded here is therefore "other", and it
+    is a CHARGE POINT open-data duty, not a consumer data right: the United Kingdom Public Charge
+    Point Regulations 2023 (PCPR) place open-data and reliability obligations on public charge
+    point operators, and Blink Charging UK is such an operator.
+  whatBlinkClaims: >-
+    On https://blinkcharging.com/en-gb/getintouch/blink-open-data-request (HTTP 200, fetched
+    2026-07-27) Blink states verbatim: "Blink Charging is committed to transparency and
+    compliance with the UK Public Charge Point Regulations (PCPR)"; that open data "includes data
+    on the usage of our charge points, their locations, and their availability"; that "The Blink
+    Data team will review your request and provide the data in api format and a stipulated
+    timeframe"; that "Your request will be shared with Eco-Movement, and in submitting the
+    request you are consenting to the processing of their data"; and, in a footnote, "*Blink is
+    compliant with the reliability requirement of the Public Charge Point Regulations 2023."
+  whyNotLiveImplemented: >-
+    A compliance claim is not an implementation. What is published is a Google Form
+    (https://docs.google.com/forms/d/e/1FAIpQLSfCr1YljoUjIv8fTRahl9Ewhi3h3mpVEGvBZ7VryT34wTccsw/viewform)
+    whose output is human-reviewed by "the Blink Data team" and returned "in api format" at an
+    unspecified time. There is no public open-data endpoint, no base URI, no dataset licence
+    named, no data dictionary, no format specified beyond the phrase "api format", and no
+    conformance statement to any schema. Probes for an OCPI versions endpoint - the format a
+    charge point operator would normally use to satisfy this duty - returned nothing real on any
+    Blink host (see probes.negativeProbes). Status is therefore live-claimed-unverified, not
+    live-implemented.
+  homeMarketStatus: >-
+    For the United States specifically the honest answer is: no mandate, none claimed, none
+    implemented. Nothing in US federal or state law compels an EV charging network to publish
+    consumer or charge point data through an API. Blink's US-facing site (894 URLs in
+    sitemap-en-us.xml) contains no developer page, no API page, no open data page and no
+    data-request page of any kind.
+  whatWouldChangeThis: >-
+    Evidence that would move status to live-implemented: a published Blink OCPI versions
+    endpoint, a Blink-hosted open data download or API base URI documented on blinkcharging.com,
+    a UK National Chargepoint Registry or DfT-recognised feed identifiably operated by Blink, or
+    any machine-readable conformance artifact. None was found.
+
+dataStandard:
+  publicApiStandard: no standard reference found
+  detail: >-
+    Blink publishes no OpenAPI, AsyncAPI, JSON Schema, OCPI descriptor or any other
+    machine-readable contract. https://blinkcharging.com/products/blink-network (HTTP 200)
+    describes the platform as "proprietary cloud-based" and names no protocol at all.
+  standardsAdoptedBelowTheApiLayer:
+  - standard: OCPP 2.0.1
+    scope: Charger-to-CSMS device protocol (Open Charge Alliance)
+    evidence: >-
+      https://blinkcharging.com/news/blink-charging-achieves-ocpp-2-0-1-certification-for-ev-chargers
+      (HTTP 200) announces certification on 2025-09-16 for Blink Series 7, 8 and 9 chargers,
+      covering "the two OCPP modules currently available for compliance testing".
+    note: >-
+      This is a device interoperability certification authored by the Open Charge Alliance. It is
+      NOT a Blink developer API and gives no third party a callable endpoint.
+  - standard: OpenADR 2.0
+    scope: Utility demand response / load management signalling
+    evidence: >-
+      https://blinkcharging.com/news/blink-network-approved-by-openadr-alliance-allowing-for-advanced-two-way-communication-with-utility-providers
+      (HTTP 200), dated 2020-03-17, quotes Blink: "Through OpenADR 2.0, a widely adopted
+      standard, a utility or load management entity can readily integrate our entire charging
+      network within their territory to enable load management control."
+    note: >-
+      Real and material - it is the one place Blink is genuinely wired into the utility control
+      plane - but it is a utility-to-network integration, not a public API. No OpenADR VTN/VEN
+      endpoint or onboarding process is published.
+  - standard: OCPI (indirect)
+    scope: Charging network roaming
+    evidence: >-
+      Blink participates in third-party roaming and data distribution networks - Hubject
+      Intercharge
+      (https://blinkcharging.com/news/hubject-teams-with-blink-charging-to-further-expand-intercharge-network-across-north-america,
+      HTTP 200), Eco-Movement
+      (https://blinkcharging.com/news/blink-charging-teams-with-eco-movement-to-enhance-ev-driver-experience,
+      HTTP 200) and Paua. The Blink Network product page names roaming reach through "ChargePoint,
+      ChargeHub, Shell Recharge, Presto Charging, or your automaker's app".
+    note: >-
+      Blink itself publishes no OCPI endpoint. Every /ocpi/versions and /ocpi/cpo/versions probe
+      against a Blink host returned the React SPA shell (soft 200, 959 bytes) or 403. Roaming is
+      brokered through partners, so the OCPI interface, if any, is not Blink's public surface.
+  - standard: Green Button / ESPI
+    scope: Not applicable
+    evidence: >-
+      Zero occurrences of "Green Button", "ESPI", "NAESB", "IEEE 2030.5" or "CIM" anywhere in the
+      fetched Blink pages (company overview, Blink Network product page, Blink Network terms and
+      conditions, UK open data request page, robots.txt, sitemaps).
+
+consumerVsMarketSplit:
+  consumer_data_api: false
+  consumer_data_detail: >-
+    FALSE. There is no documented API by which a third party can obtain an individual customer's
+    charging, usage or billing data from Blink. A driver can see their own session data - charging
+    speed, energy delivered, session duration, estimated cost - inside the Blink mobile app, and a
+    site host can "download reports, apply flexible pricing, and monitor real-time charge events"
+    inside the Blink Network host portal at https://host.blinknetwork.com. Both are customer
+    logins over a React SPA, not documented APIs. The Blink Network Terms and Conditions do name
+    "the Blink API" and tie its use to a username, which strongly implies an account-credentialed
+    interface exists, but no endpoint, base URL, reference, scope or authorisation flow is
+    published for it, and there is no consent framework or accreditation path by which a third
+    party could be authorised to fetch another person's data. Blink also reserves the right, in
+    the same terms, to share charging-usage data with third parties "at Blink's sole and absolute
+    discretion" - a unilateral disclosure right, not a consumer data right.
+  market_data_open: false
+  market_data_detail: >-
+    FALSE. Blink publishes no open grid, market, price, load, emissions or system data. It is not
+    a market participant that would have any to publish. Even the one dataset it is obliged to
+    open - UK charge point location, availability and usage under the PCPR 2023 - is not open: it
+    is behind a Google Form and a human review. The split for this organisation is therefore
+    closed on BOTH axes, which is the finding. An EV charging network is a pure consumer of grid
+    data and a producer of a dataset (where the chargers are and whether they work) that has
+    genuine public value and that at least one jurisdiction has legally required be opened - and
+    Blink meets that requirement with a contact form.
+
+accessGate:
+  gate: application-approval
+  gated: true
+  documentationIsOpen: false
+  exactStepsToGetIn: >-
+    (1) There is no self-serve path. blinkcharging.com has no developer page - all 985 sitemap
+    URLs were checked and no /developers, /api, /docs or /developer-portal page exists, and
+    /developers, /api and /docs all return HTTP 404. (2) The only live application route is the UK
+    open data request page, https://blinkcharging.com/en-gb/getintouch/blink-open-data-request:
+    provide contact details, specify the type of data needed, submit the Google Form, consent to
+    the request being shared with Eco-Movement and to UK GDPR processing, then wait for the Blink
+    Data team to review and respond. No timeframe, licence, format or endpoint is committed to.
+    (3) The historical route, now dead, was the BlinkMap API Request Form on
+    https://prod.blinknetwork.com/developer.html: first name, last name, company name, business
+    phone, email, intended business use, plus an explicit checkbox agreeing to "the Terms and
+    Conditions Blink Network, LLC Data License Agreement" and requesting "consideration by Blink
+    Network, LLC to receive BlinkMap API Data". Approval granted "access to our technical
+    documentation and email support" - i.e. the documentation itself was behind the gate. (4)
+    Commercial/fleet integrations (Presto, BetterFleet, dfYOUNG, WEX, Amerit) are partner deals
+    reached through sales, with no public technical on-ramp. Blink's only site-wide call to action
+    is "Request a quote".
+  licenceAgreement: >-
+    Yes - the historical BlinkMap API required agreement to a "Blink Network, LLC Data License
+    Agreement" before data would be considered. That is why the gate is application-approval with
+    a licence layered on top rather than plain self-serve.
+
+authModel:
+  scheme: >-
+    Not published. The only first-party statement is the Blink Network Terms and Conditions
+    (https://blinkcharging.com/legal/blink-network-terms-and-conditions, HTTP 200, "Last Modified:
+    December 2, 2025"), section 8: "You are responsible for all use of the Blink Website, API, and
+    Mobile Applications under your username." That indicates username-scoped account credentials,
+    but no scheme name, header, token format or flow is documented.
+  historicalScheme: >-
+    The retired BlinkMap API was described by third parties as issuing a username and password on
+    approval. The AE-modeled specs in the sibling repo all/blink declare an apiKeyAuth scheme
+    against https://api.blinknetwork.com/map/v1, sourced from a January 2014 Blink "API Map" PDF
+    via an unofficial Ruby client. That is a model, not a published Blink contract, and it is not
+    reproduced here.
+  oauth2: >-
+    None documented. https://blinkcharging.com/.well-known/openid-configuration returned HTTP 404.
+    https://host.blinknetwork.com/.well-known/openid-configuration returned a soft HTTP 200 that is
+    the 959-byte React SPA shell, not an OpenID discovery document - verified by content length and
+    Content-Type text/html.
+  mTLS: not documented
+  accreditation: none - no accreditation regime applies to a US EV charging network
+
+probes:
+  fetchDate: '2026-07-27'
+  method: >-
+    curl with a desktop browser user agent, following redirects, 15-40s timeouts. Every status
+    below is the final status after redirects. "Soft 200" marks a host that answers every path
+    with the same 959-byte React single-page-application shell, which is a 200 that means nothing.
+  identityAndPortal:
+  - url: https://blinkcharging.com/
+    status: 200
+  - url: https://www.blinkcharging.com/
+    status: 200
+  - url: https://blinkcharging.com/sitemap.xml
+    status: 200
+    note: Sitemap index over 11 locale sitemaps; 985 unique URLs aggregated and searched.
+  - url: https://blinkcharging.com/robots.txt
+    status: 200
+    note: 'Disallows /api, /_next, /legal/old-terms, /hidden, /search-results. The /api disallow is the Next.js internal route prefix, not a public API.'
+  - url: https://blinkcharging.com/company/company-overview
+    status: 200
+    note: Source of the Bowie, Maryland headquarters address and the office list.
+  - url: https://blinkcharging.com/products/blink-network
+    status: 200
+    note: 'Names host portal, driver app and fleet reporting. Names NO protocol - no OCPP, OCPI, OpenADR, ISO 15118 or API reference on the page.'
+  - url: https://blinkcharging.com/legal/blink-network-terms-and-conditions
+    status: 200
+    note: 'Last Modified December 2, 2025. Governs "the Blink API" explicitly; section 8 ties API use to a username.'
+  - url: https://blinkcharging.com/en-gb/getintouch/blink-open-data-request
+    status: 200
+    note: The single live data-access surface. Google Form gate, Eco-Movement routing, PCPR 2023 citation.
+  - url: https://blinkcharging.com/en-gb/
+    status: 200
+  - url: https://ir.blinkcharging.com/
+    status: 200
+  - url: https://blinkmobility.com/
+    status: 200
+    note: Blink Mobility (BlueLA car sharing) subsidiary site. Not profiled here.
+  - url: https://github.com/blinkcharging
+    status: 200
+    note: 'Real GitHub organisation (id 84390188, name "Blink Charging", blog https://blinkcharging.com). Recorded in apis.yml because the org metadata self-identifies.'
+  - url: https://blinkcharging.com/news/blink-charging-achieves-ocpp-2-0-1-certification-for-ev-chargers
+    status: 200
+  - url: https://blinkcharging.com/news/blink-network-approved-by-openadr-alliance-allowing-for-advanced-two-way-communication-with-utility-providers
+    status: 200
+  - url: https://blinkcharging.com/news/hubject-teams-with-blink-charging-to-further-expand-intercharge-network-across-north-america
+    status: 200
+  - url: https://blinkcharging.com/news/blink-charging-teams-with-eco-movement-to-enhance-ev-driver-experience
+    status: 200
+  deadOrRetiredDeveloperSurface:
+  - url: https://prod.blinknetwork.com/developer.html
+    status: 000
+    note: >-
+      Connection timed out from curl; WebFetch from a separate network vantage point returned
+      "connect ECONNREFUSED 51.143.59.97:443". DNS resolves (51.143.59.97, Azure) but the host
+      does not accept connections. This is the URL search engines still index as "Blink -
+      Developer API" and it is the Documentation link carried by the sibling repo all/blink. It is
+      dead.
+  - url: https://prod10.blinknetwork.com/developer.html
+    status: 000
+    note: Same Azure IP, same timeout.
+  - url: https://web.archive.org/web/2023id_/https://prod.blinknetwork.com/developer.html
+    status: 200
+    note: >-
+      Archived copy retrieved (28,345 bytes, page title "Blink - Developer API", footer copyright
+      2021). Content confirms the BlinkMap API program verbatim - "enables third-party integrators
+      to receive up-to-date information straight from the Blink Network - including
+      Blink-compatible EV charger locations, hours of operation, network status, and more" - plus
+      a request form and the Blink Network, LLC Data License Agreement checkbox. Wayback CDX shows
+      snapshots from 2014-06-25 through 2021-07-28 and NONE after 2021-07-28, consistent with the
+      program surface having been retired when the Blink Network migrated to Azure and to the
+      host.blinknetwork.com SPA.
+  - url: https://blinknetwork.com/developer.html
+    status: 200
+    note: >-
+      Soft 200. Redirects to https://host.blinknetwork.com/developer.html which serves the
+      959-byte React SPA shell titled "Blink Charging: Host". The developer page no longer exists
+      at this host.
+  - url: https://api.blinknetwork.com/map/v1
+    status: 503
+    note: >-
+      DNS resolves via CNAME apigw.blinknetwork.com to demo-alb-1920973694.us-east-1.elb.amazonaws.com
+      and the load balancer answers 503. This is the base URL the sibling repo all/blink carries in
+      its AE-modeled specs. A 503 from an AWS ALB is not evidence of a live documented API and was
+      NOT recorded as a baseURL in this repo.
+  negativeProbes:
+  - url: https://developer.blinkcharging.com
+    status: 000
+    note: DNS does not resolve.
+  - url: https://developers.blinkcharging.com
+    status: 000
+    note: DNS does not resolve.
+  - url: https://api.blinkcharging.com
+    status: 000
+    note: DNS does not resolve.
+  - url: https://docs.blinkcharging.com
+    status: 000
+    note: DNS does not resolve.
+  - url: https://data.blinkcharging.com
+    status: 000
+    note: DNS does not resolve. No open-data host exists on the primary domain.
+  - url: https://blinkcharging.com/developers
+    status: 404
+  - url: https://blinkcharging.com/api
+    status: 404
+  - url: https://blinkcharging.com/docs
+    status: 404
+  - url: https://blinkcharging.com/openapi.json
+    status: 404
+  - url: https://blinkcharging.com/swagger.json
+    status: 404
+  - url: https://blinkcharging.com/api-docs
+    status: 404
+  - url: https://blinkcharging.com/ocpi/versions
+    status: 404
+  - url: https://blinkcharging.com/.well-known/openid-configuration
+    status: 404
+  - url: https://blinkcharging.com/.well-known/security.txt
+    status: 404
+    note: No security.txt and no published vulnerability disclosure route.
+  - url: https://blinkcharging.com/.well-known/ai-plugin.json
+    status: 404
+  - url: https://blinkcharging.com/llms.txt
+    status: 404
+  - url: https://host.blinknetwork.com/openapi.json
+    status: 200
+    note: Soft 200 - 959-byte SPA shell, text/html. Not a specification.
+  - url: https://host.blinknetwork.com/swagger.json
+    status: 200
+    note: Soft 200 - SPA shell.
+  - url: https://host.blinknetwork.com/api-docs
+    status: 200
+    note: Soft 200 - SPA shell.
+  - url: https://host.blinknetwork.com/.well-known/openid-configuration
+    status: 200
+    note: Soft 200 - SPA shell, not an OpenID discovery document.
+  - url: https://host.blinknetwork.com/ocpi/cpo/versions
+    status: 200
+    note: Soft 200 - SPA shell. No OCPI surface.
+  - url: https://host.blinknetwork.com/ocpi/versions
+    status: 200
+    note: Soft 200 - SPA shell.
+  - url: https://blinknetwork.com/ocpi/cpo/versions
+    status: 200
+    note: Soft 200 - SPA shell after redirect to host.blinknetwork.com.
+  - url: https://host.blinknetwork.eu/ocpi/cpo/versions
+    status: 403
+    note: European host portal. Forbidden, no OCPI surface exposed.
+  - url: https://blinkcharging.com/apple-touch-icon.png
+    status: 404
+  - url: https://blinkcharging.com/favicon.png
+    status: 404
+  - url: https://blinkcharging.com/favicon.ico
+    status: 200
+    note: >-
+      764-byte .ico only. No brand icon trivially usable, so the shared placeholder icon URL was
+      used for image: in apis.yml rather than inventing one.
+
+harvest:
+  specs: []
+  totalSpecs: 0
+  openapiDirectoryCreated: false
+  reason: >-
+    Nothing real was found to save. No OpenAPI, AsyncAPI, JSON Schema, Postman collection, OCPI
+    descriptor or any other machine-readable artifact is published by Blink Charging on any host
+    probed. The openapi/ directory was deliberately omitted rather than filled with a model.
+  explicitlyNotHarvested:
+  - artifact: all/blink/openapi/*.yml (three documents)
+    reason: >-
+      Those are AE-MODELED, not harvested. Their own info.description says they were "modeled from
+      a historical official Blink API Map PDF (dated January 2014)" via the unofficial third-party
+      Ruby client github.com/conarro/blink_api, and that "Paths, parameter names, and response
+      fields are NOT independently re-verified". Copying them into this repo would misrepresent a
+      model as a provider-published contract.
+  - artifact: github.com/conarro/blink_api
+    reason: >-
+      Unofficial third-party Ruby wrapper from 2014. Real evidence that a BlinkMap API once
+      existed and was callable, but it is not a Blink artifact and is not listed in apis.yml.
+
+apiFamilySegmentation:
+  note: >-
+    Blink does not segment an API family, because it does not publish one. What follows is the
+    product segmentation its own pages use, recorded so a later enrichment pass knows where an API
+    would sit if one were ever published.
+  segments:
+  - name: Driver
+    surface: Blink mobile app - find stations, start/pause/end/restart a session, view charging speed, energy delivered, session duration and estimated cost. Customer login only.
+  - name: Host
+    surface: Blink Network host portal (host.blinknetwork.com, host.blinknetwork.eu) - reports, flexible pricing, real-time charge event monitoring. Customer login only.
+  - name: Fleet
+    surface: Blink fleet management - advanced fleet reporting and monitoring; partner integrations with Presto, BetterFleet, WEX, dfYOUNG described in news releases as API integrations but with no public reference.
+  - name: Roaming
+    surface: Third-party networks - Hubject Intercharge, Eco-Movement, Paua, plus driver access via ChargePoint, ChargeHub, Shell Recharge and automaker apps. Brokered, not self-published.
+  - name: Grid / demand response
+    surface: OpenADR 2.0 approved Blink Network for utility load management control. No public onboarding.
+  - name: Open data (UK only)
+    surface: PCPR 2023 charge point location, availability and usage data, by Google Form request.
+
+findings:
+  summary: |
+    Blink Charging is the cleanest possible illustration of the sector's central question read
+    from the other end. There is no mandate to confuse with an implementation in its home market
+    at all - the United States imposes no consumer energy data right on anyone, let alone on an EV
+    charging network, and Green Button is a voluntary utility standard that has nothing to say
+    about a charge point operator. So the interesting mandate is the one that DOES bind Blink, in
+    a different jurisdiction and over a different dataset: the UK Public Charge Point Regulations
+    2023 require public charge point operators to open their location, availability and usage
+    data. Blink's answer to that legal requirement is a Google Form.
+
+    That is the finding worth carrying forward. The regulation is real, Blink's page cites it by
+    name, and Blink asserts compliance with the reliability limb of it in a footnote. But the
+    open-data limb is met with "provide your contact details and specify the type of data you
+    need", followed by human review by "the Blink Data team", followed by delivery "in api format"
+    on "a stipulated timeframe", with the request forwarded to a commercial aggregator,
+    Eco-Movement. No endpoint. No licence. No schema. No format beyond the phrase "api format".
+    A regulator can read that page and tick a box; a developer cannot write a line of code against
+    it. Mandate: yes. Implementation: unverifiable. That gap is the whole point.
+
+    On its own API posture Blink is not merely undocumented, it is regressive. It had a named
+    developer program - the BlinkMap API - with a public landing page, a described data product
+    (charger locations, hours of operation, network status), a request form and a data licence
+    agreement. That page is archived from 2014 through July 2021 and then stops, and the host now
+    refuses connections. The Blink Network migrated to Azure and to a React single-page host
+    portal, and the developer surface did not migrate with it. Today the only trace of an API in
+    Blink's own words is a clause in its terms of service: section 8 of the Blink Network Terms
+    and Conditions, last modified 2 December 2025, governs "the Blink API" and says you are
+    responsible for all use of it "under your username". A live legal contract for a surface with
+    no public documentation is a strange artifact, and it is the strongest evidence available that
+    an account-credentialed Blink API exists and is simply not published.
+
+    The consumer/market split is closed on both axes, which for this tier is expected and still
+    worth stating. Blink holds no metered premises data, so there is no consumer energy data
+    right to implement. It publishes no grid or market data because it has none - it is load, not
+    a market participant. What it does hold that has public value is the charge point availability
+    dataset, and that is precisely the dataset a regulator reached for and precisely the one Blink
+    keeps behind a form.
+  standardsPosture: >-
+    Real adoption, all of it below the API layer. OCPP 2.0.1 certification (2025-09-16, Series 7,
+    8 and 9) governs charger-to-backend, and OpenADR 2.0 approval (2020-03-17) governs
+    utility-to-network load management - both genuine, both invisible to a developer. Roaming
+    reaches drivers through Hubject Intercharge, Eco-Movement and Paua rather than through a Blink
+    OCPI endpoint. Zero references to Green Button, ESPI, NAESB, IEEE 2030.5 or CIM anywhere on
+    the public surface. The Blink Network product page describes the platform as "proprietary
+    cloud-based" and names no protocol whatsoever.
+  governanceObservations:
+  - The Blink Network Terms and Conditions govern an API that has no published documentation, no base URL and no reference - a live legal surface over an invisible technical one.
+  - Every path on host.blinknetwork.com returns the same 959-byte SPA shell with HTTP 200, so naive spec-discovery tooling will record false positives for openapi.json, swagger.json, api-docs and .well-known/openid-configuration. All were verified by content length and Content-Type and recorded as soft 200s.
+  - api.blinknetwork.com resolves through apigw.blinknetwork.com to an AWS ALB whose hostname is literally "demo-alb-1920973694.us-east-1.elb.amazonaws.com" and which returns 503 on the historical /map/v1 base path.
+  - No .well-known/security.txt and no published vulnerability disclosure route on the primary domain.
+  - The company's own GitHub organisation profile carries a stale headquarters location (Miami Beach, FL) relative to its live company page (Bowie, MD).
+  - The UK open-data obligation is discharged through a Google Form on a third-party domain rather than any Blink-controlled machine interface.
+
+sources:
+- url: https://blinkcharging.com/company/company-overview
+  type: Documentation
+  note: Headquarters address, office list, CEO.
+- url: https://blinkcharging.com/products/blink-network
+  type: Documentation
+  note: Host portal, driver app, fleet reporting, roaming partners. No protocol named.
+- url: https://blinkcharging.com/legal/blink-network-terms-and-conditions
+  type: TermsOfService
+  note: 'Last Modified December 2, 2025. Names "the Blink API"; section 8 ties API use to a username; reserves unilateral right to share usage data with third parties.'
+- url: https://blinkcharging.com/en-gb/getintouch/blink-open-data-request
+  type: OpenData
+  note: UK PCPR 2023 open data request. Google Form gate, Eco-Movement routing, delivery "in api format".
+- url: https://blinkcharging.com/news/blink-charging-achieves-ocpp-2-0-1-certification-for-ev-chargers
+  type: News
+  note: OCPP 2.0.1 certification 2025-09-16, Series 7/8/9.
+- url: https://blinkcharging.com/news/blink-network-approved-by-openadr-alliance-allowing-for-advanced-two-way-communication-with-utility-providers
+  type: News
+  note: OpenADR 2.0 approval 2020-03-17 for utility load management.
+- url: https://blinkcharging.com/news/hubject-teams-with-blink-charging-to-further-expand-intercharge-network-across-north-america
+  type: News
+  note: Hubject Intercharge roaming.
+- url: https://blinkcharging.com/news/blink-charging-teams-with-eco-movement-to-enhance-ev-driver-experience
+  type: News
+  note: Eco-Movement data distribution partnership, the same aggregator named on the UK open data page.
+- url: https://web.archive.org/web/2023id_/https://prod.blinknetwork.com/developer.html
+  type: Documentation
+  note: Archived BlinkMap API developer page (copyright 2021). Sole surviving evidence of the retired developer program and its data licence gate.
+
+duplicateWarning:
+  isDuplicate: true
+  survivorCandidate: undetermined - flag for the duplicate-provider-retirement process
+  otherRepo: /Users/kinlane/GitHub/all/blink
+  detail: >-
+    An existing api-evangelist repo all/blink profiles THIS SAME COMPANY under aid "blink" - name
+    "Blink Charging", Website https://blinkcharging.com, LinkedIn
+    https://www.linkedin.com/company/blinkcharging, GitHubOrganization
+    https://github.com/blinkcharging - created 2026-07-03 and already enriched with three apis[]
+    entries (Locations, Search, Status), three AE-modeled OpenAPI documents plus an _original,
+    agentic-access, authentication, security, screenshots and kin score files. This repo
+    (blink-charging) was created by the energy sector sweep against the blinkcharging.com domain.
+    The two should be merged rather than both published.
+  materialDifferencesToReconcile:
+  - >-
+    all/blink lists three APIs with baseURL https://api.blinknetwork.com/map/v1 and Documentation
+    https://prod.blinknetwork.com/developer.html. Both were re-probed on 2026-07-27: the base URL
+    returns 503 from an AWS ALB named "demo-alb-...", and the documentation host refuses
+    connections entirely. Those pointers are stale and should be corrected or retired on the
+    survivor.
+  - >-
+    all/blink tags the company only as EV Charging / mobility. This repo places it in the Energy &
+    Utilities sector with the mandate, standards and consumer-versus-market analysis that sector
+    work requires. The survivor should carry both tag sets.
+  - >-
+    all/blink's accessModel says onboarding "self-serve" with confidence medium. That is wrong on
+    the evidence: there is no self-serve path of any kind. The gate is application-approval, and
+    for the retired BlinkMap program it was application-approval plus a data licence agreement.
