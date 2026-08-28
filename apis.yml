@@ -27,6 +27,17 @@ description: >-
   layer: OCPP 2.0.1 certification for its Series 7, 8 and 9 chargers announced September 2025,
   and OpenADR 2.0 approval for the Blink Network announced March 2020 enabling utility load
   management across its charging network.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://a-us.storyblok.com/f/1016941/220x110/e14930a9c8/blink-logo.svg
 tags:
 - Energy
